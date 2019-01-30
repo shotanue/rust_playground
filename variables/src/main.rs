@@ -7,5 +7,11 @@ fn main() {
 fn plus_one(x: i32) -> i32 {
     let tmp = String::from("hogehogehoge");
     println!("{}",tmp);
-    x + 1
+    let y :Option<i32> = Option::from(3);
+
+    let y: i32 = match y {
+        None => 0,
+        Some(num) => num,
+    };
+    x + 1 + y
 }
