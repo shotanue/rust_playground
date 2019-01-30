@@ -13,3 +13,4 @@ Cargo.lock
 .idea
 
 hello_cargo/target/
+variables/target/
