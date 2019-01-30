@@ -9,7 +9,9 @@ fn plus_one(x: i32) -> i32 {
     println!("{}",tmp);
     let y :Option<i32> = Option::from(3);
 
-    let y: i32 = match y {
+    let y
+
+        : i32 = match y {
         None => 0,
         Some(num) => num,
     };
