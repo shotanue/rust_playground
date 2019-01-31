@@ -1,4 +1,4 @@
 
-fn connect() {
+pub fn connect() {
 }
-fn hoge(){}
+pub fn hoge(){}
