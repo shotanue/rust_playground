@@ -22,3 +22,5 @@ minigrep/target/
 minigrep/out.txt
 hello/target
 smart_pointer/target
+ref_call/target
+rust_ssh/target
