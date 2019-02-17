@@ -1,0 +1,18 @@
+[package]
+name = "graphql"
+version = "0.1.0"
+authors = ["shotanue <22065594+shotanue@users.noreply.github.com>"]
+edition = "2018"
+
+[dependencies]
+env_logger = "0.5"
+
+actix = "0.7"
+actix-web = "0.7"
+
+futures = "0.1"
+serde = "1.0"
+serde_json = "1.0"
+serde_derive = "1.0"
+
+juniper = "0.9.2"
