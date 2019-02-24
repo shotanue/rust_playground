@@ -24,3 +24,5 @@ hello/target
 smart_pointer/target
 ref_call/target
 rust_ssh/target
+graphql/target
+json_server/target

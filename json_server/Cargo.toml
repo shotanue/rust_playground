@@ -1,0 +1,11 @@
+[package]
+name = "json_server"
+version = "0.1.0"
+authors = ["shotanue <22065594+shotanue@users.noreply.github.com>"]
+edition = "2018"
+
+[dependencies]
+actix-web = "0.7.18"
+actix = "0.7.9"
+
+serde_json = "1.0"
