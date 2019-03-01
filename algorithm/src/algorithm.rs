@@ -34,15 +34,13 @@ mod tests {
 
     #[test]
     fn it_tests_bubble_sort() {
-        let mut source = vec![1, 4, 2, 3, 7];
-        algorithm::sort::selection_sort(&mut source);
-        assert_eq!(source,vec![1,2,3,4,7]);
+        algorithm::sort::selection_sort(&mut vec![1, 4, 2, 3, 7]);
+        assert_eq!(source, vec![1, 2, 3, 4, 7]);
     }
 
     #[test]
     fn it_tests_selection_sort() {
-        let mut source = vec![1, 5, 2, 3, 7];
-        algorithm::sort::selection_sort(&mut source);
-        assert_eq!(source,vec![1,2,3,5,7]);
+        algorithm::sort::selection_sort(&mut vec![1, 5, 2, 3, 7]);
+        assert_eq!(source, vec![1, 2, 3, 5, 7]);
     }
 }
