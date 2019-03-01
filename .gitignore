@@ -26,3 +26,5 @@ ref_call/target
 rust_ssh/target
 graphql/target
 json_server/target
+algorithm/target
+parse/target
