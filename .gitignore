@@ -29,5 +29,3 @@ json_server/target
 algorithm/target
 parse/target
 play_sled/target
-play_sled/test_storage/
-!play_sled/test_storage/.gitkeep
