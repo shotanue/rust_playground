@@ -112,7 +112,7 @@ fn recognize_many(input: &[u8], mut pos: usize, mut f: impl FnMut(u8) -> bool) -
     pos
 }
 
-fn lex_number(input: &[u8], mut pos: usize) -> Result<(Token, usize), LexError> {
+fn lex_number(input: &[u8], pos: usize) -> Result<(Token, usize), LexError> {
     use std::str::from_utf8;
 
     let start = pos;
@@ -127,7 +127,7 @@ fn lex_number(input: &[u8], mut pos: usize) -> Result<(Token, usize), LexError> 
 }
 
 fn skip_spaces(input: &[u8], pos: usize) -> Result<((), usize), LexError> {
-    let pos = recognize_many(input, pos, |b| b"\n\t".contains(&b));
+    let pos = recognize_many(input, pos, |b| b" \n\t".contains(&b));
     Ok(
         ((), pos)
     )
