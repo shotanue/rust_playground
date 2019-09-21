@@ -210,7 +210,7 @@ fn test_lexer() {
             Token::number(3, Loc(8, 9)),
             Token::minus(Loc(10, 11)),
             Token::minus(Loc(12, 13)),
-            Token::number(10, Loc(14, 15))
+            Token::number(10, Loc(13, 15))
         ])
     )
 }
