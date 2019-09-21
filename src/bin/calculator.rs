@@ -140,7 +140,75 @@ fn lex_plus(input: &[u8], start: usize) -> Result<(Token, usize), LexError> {
         .map(|(_, end)| (Token::plus(Loc(start, end)), end))
 }
 
+fn lex_minus(input: &[u8], start: usize) -> Result<(Token, usize), LexError> {
+    consume_byte(input, start, b'-')
+        .map(|(_, end)| (Token::minus(Loc(start, end)), end))
+}
 
 
+fn lex_slash(input: &[u8], start: usize) -> Result<(Token, usize), LexError> {
+    consume_byte(input, start, b'/')
+        .map(|(_, end)| (Token::slash(Loc(start, end)), end))
+}
+
+fn lex_lparen(input: &[u8], start: usize) -> Result<(Token, usize), LexError> {
+    consume_byte(input, start, b'(')
+        .map(|(_, end)| (Token::lparen(Loc(start, end)), end))
+}
+
+fn lex_rparen(input: &[u8], start: usize) -> Result<(Token, usize), LexError> {
+    consume_byte(input, start, b')')
+        .map(|(_, end)| (Token::rparen(Loc(start, end)), end))
+}
+
+fn lex_asterisk(input: &[u8], start: usize) -> Result<(Token, usize), LexError> {
+    consume_byte(input, start, b'*')
+        .map(|(_, end)| (Token::asterisk(Loc(start, end)), end))
+}
+
+fn recognize_many(input: &[u8], mut pos: usize, mut f: impl FnMut(u8) -> bool) -> usize {
+    while pos < input.len() && f(input[pos]) {
+        pos += 1;
+    }
+    pos
+}
+
+fn lex_number(input: &[u8], mut pos: usize) -> Result<(Token, usize), LexError> {
+    use std::str::from_utf8;
+
+    let start = pos;
+    let end = recognize_many(input, start, |b| b"1234567890".contains(&b));
+    let n = from_utf8(&input[start..end]).unwrap().parse().unwrap();
+    Ok(
+        (
+            Token::number(n, Loc(start, end)),
+            end
+        )
+    )
+}
+
+fn skip_spaces(input: &[u8], pos: usize) -> Result<((), usize), LexError> {
+    let pos = recognize_many(input, pos, |b| b"\n\t".contains(&b));
+    Ok(
+        ((), pos)
+    )
+}
+
+#[test]
+fn test_lexer() {
+    assert_eq!(
+        lex("1 + 2 * 3 - -10"),
+        Ok(vec![
+            Token::number(1, Loc(0, 1)),
+            Token::plus(Loc(2, 3)),
+            Token::number(2, Loc(4, 5)),
+            Token::asterisk(Loc(6, 7)),
+            Token::number(3, Loc(8, 9)),
+            Token::minus(Loc(10, 11)),
+            Token::minus(Loc(12, 13)),
+            Token::number(10, Loc(14, 15))
+        ])
+    )
+}
 
 
