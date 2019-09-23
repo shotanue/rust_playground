@@ -315,6 +315,32 @@ fn parse_expr<Tokens>(tokens: &mut Peekable<Tokens>) -> Result<Ast, ParseError>
     parse_expr3(tokens)
 }
 
+fn parse_left_binop<Tokens>(
+    tokens: &mut Peekable<Tokens>,
+    subexpr_parser: fn(&mut Peekable<Tokens>) -> Result<Ast, ParseError>,
+    op_perser: fn(&mut Peekable<Tokens>) -> Result<BinOp, ParseError>,
+) -> Result<Ast, ParseError>
+    where Tokens: Iterator<Item=Token>
+{
+    let mut e = subexpr_parser(tokens)?;
+    loop {
+        match tokens.peek() {
+            Some(_) => {
+                let op = match op_perser(tokens) {
+                    Ok(op) => op,
+                    Err(_) => break,
+                };
+
+                let r = subexpr_parser(tokens)?;
+                let loc = e.loc.merge(&r.loc);
+                e = Ast::binop(op, e, r, loc)
+            }
+            _ => break,
+        }
+    }
+    Ok(e)
+}
+
 /// EXPR3 = EXPR 2 EXPR3_Loop
 /// EXPR3_Loop = ("+" | "-") EXPR2 EXPR3_Loop | ε
 fn parse_expr3<Tokens>(tokens: &mut Peekable<Tokens>) -> Result<Ast, ParseError>
@@ -392,6 +418,7 @@ fn parse_expr1<Tokens>(tokens: &mut Peekable<Tokens>) -> Result<Ast, ParseError>
     }
 }
 
+
 fn parse_atom<Tokens>(tokens: &mut Peekable<Tokens>) -> Result<Ast, ParseError>
     where Tokens: Iterator<Item=Token>,
 {
@@ -451,33 +478,6 @@ fn test_parser() {
             Loc(0, 15),
         ))
     )
-}
-
-
-fn parse_left_binop<Tokens>(
-    tokens: &mut Peekable<Tokens>,
-    subexpr_parser: fn(&mut Peekable<Tokens>) -> Result<Ast, ParseError>,
-    op_perser: fn(&mut Peekable<Tokens>) -> Result<BinOp, ParseError>,
-) -> Result<Ast, ParseError>
-    where Tokens: Iterator<Item=Token>
-{
-    let mut e = subexpr_parser(tokens)?;
-    loop {
-        match tokens.peek() {
-            Some(_) => {
-                let op = match op_perser(tokens) {
-                    Ok(op) => op,
-                    Err(_) => break,
-                };
-
-                let r = subexpr_parser(tokens)?;
-                let loc = e.loc.merge(&r.loc);
-                e = Ast::binop(op, e, r, loc)
-            }
-            _ => break,
-        }
-    }
-    Ok(e)
 }
 
 
