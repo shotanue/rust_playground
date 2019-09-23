@@ -364,6 +364,7 @@ fn parse_expr3<Tokens>(tokens: &mut Peekable<Tokens>) -> Result<Ast, ParseError>
     parse_left_binop(tokens, parse_expr2, parse_expr3_op)
 }
 
+/// EXPR2 = EXPR2, ("*" | "/"), EXPR1 | EXPR1 ;
 fn parse_expr2<Tokens>(tokens: &mut Peekable<Tokens>) -> Result<Ast, ParseError>
     where
         Tokens: Iterator<Item=Token>
@@ -392,6 +393,7 @@ fn parse_expr2<Tokens>(tokens: &mut Peekable<Tokens>) -> Result<Ast, ParseError>
     }
 }
 
+/// EXPR1 = ("+" | "-") , ATOM | ATOM;
 fn parse_expr1<Tokens>(tokens: &mut Peekable<Tokens>) -> Result<Ast, ParseError>
     where
         Tokens: Iterator<Item=Token>,
@@ -418,7 +420,9 @@ fn parse_expr1<Tokens>(tokens: &mut Peekable<Tokens>) -> Result<Ast, ParseError>
     }
 }
 
-
+/// ATOM = UNUMBER | "(" , EXPR3 , ")" ;
+/// UNUMBER = DIGIT, {DIGIT} ;
+/// DIGIT = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
 fn parse_atom<Tokens>(tokens: &mut Peekable<Tokens>) -> Result<Ast, ParseError>
     where Tokens: Iterator<Item=Token>,
 {
